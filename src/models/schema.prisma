@@ -15,6 +15,7 @@ model User {
   role     String
   createdAt DateTime @default(now())
   refreshTokens RefreshToken[]
+  appointments Appointment[] @relation("DoctorAppointments")
 }
 
 model RefreshToken {
@@ -37,4 +38,25 @@ model Patient {
   address       String
   medicalHistory String
   createdAt     DateTime @default(now())
+  appointments  Appointment[]
+}
+
+model Appointment {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId    String   @db.ObjectId
+  doctorId     String   @db.ObjectId
+  startTime    DateTime
+  endTime      DateTime
+  status       String   @default("scheduled")
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  /// Relations
+  patient      Patient  @relation(fields: [patientId], references: [id])
+  doctor       User     @relation("DoctorAppointments", fields: [doctorId], references: [id])
+
+  /// Recurring appointment fields
+  repeatInterval String?
+  repeatCount    Int?
+  repeatUntil    DateTime?
 }
