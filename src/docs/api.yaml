@@ -25,15 +25,85 @@ paths:
                   type: string
                 password:
                   type: string
+                role:
+                  type: string
       responses:
         '201':
-          description: Created
+          description: Access token
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  accessToken:
                     type: string
-        '400':
-          description: Validation error
+  /api/auth/login:
+    post:
+      summary: User login
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Access token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+  /api/auth/logout:
+    post:
+      summary: Logout user
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Logged out
+  /api/auth/refresh:
+    post:
+      summary: Refresh token
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: New access token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+  /api/auth/me:
+    get:
+      summary: Current user
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: User info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  role:
+                    type: string
+
