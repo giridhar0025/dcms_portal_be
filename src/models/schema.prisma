@@ -25,3 +25,16 @@ model RefreshToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model Patient {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName     String
+  lastName      String
+  email         String?
+  phone         String
+  gender        String
+  dateOfBirth   DateTime
+  address       String
+  medicalHistory String
+  createdAt     DateTime @default(now())
+}

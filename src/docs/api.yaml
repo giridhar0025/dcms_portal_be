@@ -107,3 +107,75 @@ paths:
                   role:
                     type: string
 
+  /api/patients:
+    post:
+      summary: Create patient
+      tags:
+        - Patients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - firstName
+                - lastName
+                - phone
+                - gender
+                - dateOfBirth
+                - address
+                - medicalHistory
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                gender:
+                  type: string
+                dateOfBirth:
+                  type: string
+                address:
+                  type: string
+                medicalHistory:
+                  type: string
+      responses:
+        '201':
+          description: Created patient
+  /api/patients/{id}:
+    put:
+      summary: Edit patient
+      tags:
+        - Patients
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Updated patient
+    delete:
+      summary: Delete patient
+      tags:
+        - Patients
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Patient deleted
