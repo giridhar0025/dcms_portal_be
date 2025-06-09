@@ -179,3 +179,125 @@ paths:
       responses:
         '200':
           description: Patient deleted
+
+  /api/appointments:
+    post:
+      summary: Book appointment
+      tags:
+        - Appointments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - patientId
+                - doctorId
+                - startTime
+                - endTime
+              properties:
+                patientId:
+                  type: string
+                doctorId:
+                  type: string
+                startTime:
+                  type: string
+                endTime:
+                  type: string
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Appointment booked
+    get:
+      summary: List appointments
+      tags:
+        - Appointments
+      parameters:
+        - in: query
+          name: doctorId
+          schema:
+            type: string
+        - in: query
+          name: patientId
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          schema:
+            type: string
+        - in: query
+          name: endDate
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of appointments
+  /api/appointments/{id}:
+    get:
+      summary: Get appointment details
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Appointment info
+    put:
+      summary: Reschedule appointment
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - startTime
+                - endTime
+              properties:
+                startTime:
+                  type: string
+                endTime:
+                  type: string
+      responses:
+        '200':
+          description: Updated appointment
+    delete:
+      summary: Cancel appointment
+      tags:
+        - Appointments
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Appointment cancelled
+
+  /api/protected/admin:
+    get:
+      summary: Admin protected route
+      tags:
+        - Protected
+      responses:
+        '200':
+          description: Admin access message
