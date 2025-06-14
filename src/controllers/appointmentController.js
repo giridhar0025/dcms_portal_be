@@ -55,9 +55,6 @@ async function cancel(req, res, next) {
     if (!isValidObjectId(id)) return res.status(400).json({ error: 'Invalid id' });
     const appointment = await findAppointmentById(id);
     if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
-    if (req.user.role === 'patient' && req.user.userId !== appointment.patientId) {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
     const updated = await cancelAppointment(id);
     if (emailQueue && emailQueue.add) {
       await emailQueue.add('appointmentCancelled', { appointmentId: updated.id });
@@ -80,9 +77,8 @@ async function list(req, res, next) {
       if (startDate) filter.startTime.gte = new Date(startDate);
       if (endDate) filter.startTime.lte = new Date(endDate);
     }
-    const role = req.user.role;
-    if (role === 'dentist') filter.doctorId = req.user.userId;
-    if (role === 'patient') filter.patientId = req.user.userId;
+    const roles = req.user.roles || [];
+    if (roles.includes('dentist')) filter.doctorId = req.user.userId;
     const appointments = await listAppointments(filter);
     res.json(appointments);
   } catch (err) {
@@ -96,9 +92,9 @@ async function getOne(req, res, next) {
     if (!isValidObjectId(id)) return res.status(400).json({ error: 'Invalid id' });
     const appointment = await findAppointmentById(id);
     if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
-    const role = req.user.role;
-    if (role === 'dentist' && appointment.doctorId !== req.user.userId) return res.status(403).json({ error: 'Forbidden' });
-    if (role === 'patient' && appointment.patientId !== req.user.userId) return res.status(403).json({ error: 'Forbidden' });
+    const roles = req.user.roles || [];
+    if (roles.includes('dentist') && appointment.doctorId !== req.user.userId)
+      return res.status(403).json({ error: 'Forbidden' });
     res.json(appointment);
   } catch (err) {
     next(err);

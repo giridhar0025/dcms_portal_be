@@ -11,11 +11,11 @@ beforeAll(async () => {
   await prisma.user.deleteMany();
   const password = await bcrypt.hash('secret123', 10);
   await prisma.user.create({
-    data: { name: 'Admin', email: 'admin@test.com', password, role: 'admin' },
+    data: { name: 'Admin', email: 'admin@test.com', password, roles: ['admin'] },
   });
   const password2 = await bcrypt.hash('pass1234', 10);
   await prisma.user.create({
-    data: { name: 'Rec', email: 'rec@test.com', password: password2, role: 'receptionist' },
+    data: { name: 'Rec', email: 'rec@test.com', password: password2, roles: ['receptionist'] },
   });
 });
 
@@ -26,7 +26,7 @@ afterAll(async () => {
 test('signup creates user and returns token', async () => {
   const res = await request(app)
     .post('/api/auth/signup')
-    .send({ name: 'Dent', email: 'dent@test.com', password: 'teeth123', role: 'dentist' });
+    .send({ name: 'Dent', email: 'dent@test.com', password: 'teeth123', roles: ['dentist'] });
   expect(res.statusCode).toBe(201);
   expect(res.body.accessToken).toBeDefined();
 });
@@ -47,7 +47,7 @@ test('me returns user info', async () => {
     .get('/api/auth/me')
     .set('Authorization', `Bearer ${accessToken}`);
   expect(res.statusCode).toBe(200);
-  expect(res.body.role).toBe('admin');
+  expect(res.body.roles).toContain('admin');
 });
 
 test('refresh rotates token', async () => {
