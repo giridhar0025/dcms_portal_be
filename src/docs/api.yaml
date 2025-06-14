@@ -25,8 +25,10 @@ paths:
                   type: string
                 password:
                   type: string
-                role:
-                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
       responses:
         '201':
           description: Access token
@@ -104,8 +106,10 @@ paths:
                 properties:
                   id:
                     type: string
-                  role:
-                    type: string
+                  roles:
+                    type: array
+                    items:
+                      type: string
 
   /api/patients:
     post:

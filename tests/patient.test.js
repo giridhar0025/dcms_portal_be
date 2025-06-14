@@ -14,11 +14,11 @@ beforeAll(async () => {
   await prisma.patient.deleteMany();
 
   const adminPass = await bcrypt.hash('admin123', 10);
-  await prisma.user.create({ data: { name: 'Admin', email: 'admin@test.com', password: adminPass, role: 'admin' } });
+  await prisma.user.create({ data: { name: 'Admin', email: 'admin@test.com', password: adminPass, roles: ['admin'] } });
   const recPass = await bcrypt.hash('rec1234', 10);
-  await prisma.user.create({ data: { name: 'Rec', email: 'rec@test.com', password: recPass, role: 'receptionist' } });
+  await prisma.user.create({ data: { name: 'Rec', email: 'rec@test.com', password: recPass, roles: ['receptionist'] } });
   const dentPass = await bcrypt.hash('dent1234', 10);
-  await prisma.user.create({ data: { name: 'Dent', email: 'dent@test.com', password: dentPass, role: 'dentist' } });
+  await prisma.user.create({ data: { name: 'Dent', email: 'dent@test.com', password: dentPass, roles: ['dentist'] } });
 
   adminToken = (await request(app).post('/api/auth/login').send({ email: 'admin@test.com', password: 'admin123' })).body.accessToken;
   recToken = (await request(app).post('/api/auth/login').send({ email: 'rec@test.com', password: 'rec1234' })).body.accessToken;

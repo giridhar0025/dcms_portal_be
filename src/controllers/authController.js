@@ -77,7 +77,7 @@ async function refresh(req, res, next) {
 
 function me(req, res) {
   const { user } = req;
-  res.json({ id: user.userId, role: user.role });
+  res.json({ id: user.userId, roles: user.roles });
 }
 
 module.exports = { signup, login, logout, refresh, me };

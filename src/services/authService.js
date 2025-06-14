@@ -10,14 +10,14 @@ async function createUser(data) {
       name: data.name,
       email: data.email,
       password: hashed,
-      role: data.role || 'receptionist',
+      roles: data.roles && data.roles.length ? data.roles : ['receptionist'],
     },
   });
 }
 
 function generateAccessToken(user) {
   return jwt.sign(
-    { userId: user.id, role: user.role },
+    { userId: user.id, roles: user.roles },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
   );

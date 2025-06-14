@@ -12,7 +12,7 @@ model User {
   name     String
   email    String   @unique
   password String
-  role     String
+  roles    String[]
   createdAt DateTime @default(now())
   refreshTokens RefreshToken[]
   appointments Appointment[] @relation("DoctorAppointments")
