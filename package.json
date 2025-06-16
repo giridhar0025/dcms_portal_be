@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "npx prisma generate --schema=src/models/schema.prisma && nodemon index.js",
+    "dev": "npm run build && nodemon index.js",
+    "build": "npx prisma generate --schema=src/models/schema.prisma",
     "test": "jest"
   },
   "dependencies": {
