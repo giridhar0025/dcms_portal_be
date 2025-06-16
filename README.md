@@ -26,6 +26,19 @@ This project provides a production-ready boilerplate using **Node.js**, **Expres
    npm run dev
    ```
 
+### Environment variables
+
+Create a `.env` file with the following keys:
+
+```
+PORT=3000
+DATABASE_URL=<your MongoDB connection string>
+JWT_SECRET=<secret used to sign tokens>
+REDIS_URL=<Redis connection string>
+```
+
+These values should also be configured in your Render service settings.
+
 ## Build
 
 Generate the Prisma client:
@@ -54,7 +67,8 @@ npm test
 
 ## Deployment
 
-The project deploys to **GitHub Pages** whenever a pull request is merged into
-the `main` branch. You can also trigger a deployment manually from the Actions
-tab by running the *Deploy to GitHub Pages* workflow.
+The project deploys to **Render**. Deployment runs automatically when a pull
+request is merged into the `main` branch or when the *Deploy to Render* workflow
+is manually triggered from the Actions tab. The workflow uses a deploy hook URL
+stored in the `RENDER_DEPLOY_HOOK` secret.
 

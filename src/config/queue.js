@@ -1,11 +1,17 @@
 const { Queue } = require('bullmq');
 const Redis = require('ioredis');
 
-const connection = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+let connection;
+if (process.env.REDIS_URL) {
+  connection = new Redis(process.env.REDIS_URL);
+} else {
+  console.warn('REDIS_URL not configured. Queue processing disabled.');
+}
 
-const emailQueue = new Queue('email', { connection });
+const emailQueue = connection ? new Queue('email', { connection }) : null;
 
 async function connectQueue() {
+  if (!connection) return;
   try {
     await connection.ping();
     console.log('Connected to Redis');
