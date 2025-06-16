@@ -6,7 +6,6 @@ const {
   listAppointments,
   hasConflict,
 } = require('../services/appointmentService');
-const { emailQueue } = require('../config/queue');
 const { isValidObjectId } = require('../utils/objectId');
 
 async function book(req, res, next) {
@@ -21,9 +20,6 @@ async function book(req, res, next) {
     const conflict = await hasConflict({ doctorId, patientId, startTime, endTime });
     if (conflict) return res.status(400).json({ error: 'Time slot unavailable' });
     const appointment = await createAppointment({ patientId, doctorId, startTime: new Date(startTime), endTime: new Date(endTime), notes });
-    if (emailQueue && emailQueue.add) {
-      await emailQueue.add('appointmentReminder', { appointmentId: appointment.id });
-    }
     res.status(201).json(appointment);
   } catch (err) {
     next(err);
@@ -56,9 +52,6 @@ async function cancel(req, res, next) {
     const appointment = await findAppointmentById(id);
     if (!appointment) return res.status(404).json({ error: 'Appointment not found' });
     const updated = await cancelAppointment(id);
-    if (emailQueue && emailQueue.add) {
-      await emailQueue.add('appointmentCancelled', { appointmentId: updated.id });
-    }
     res.json(updated);
   } catch (err) {
     next(err);

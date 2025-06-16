@@ -1,11 +1,10 @@
 # DCMS Portal Backend Boilerplate
 
-This project provides a production-ready boilerplate using **Node.js**, **Express**, **Prisma** with MongoDB, **BullMQ**, **Redis**, **JWT** authentication and **Swagger** documentation.
+This project provides a production-ready boilerplate using **Node.js**, **Express**, **Prisma** with MongoDB, **JWT** authentication and **Swagger** documentation.
 
 ## Features
 - Modular folder structure
 - Prisma MongoDB setup
-- Job queue using BullMQ
 - Centralized validation with Zod
 - Swagger documentation
 - Jest + Supertest test setup
@@ -34,7 +33,6 @@ Create a `.env` file with the following keys:
 PORT=3000
 DATABASE_URL=<your MongoDB connection string>
 JWT_SECRET=<secret used to sign tokens>
-REDIS_URL=<Redis connection string>
 ```
 
 These values should also be configured in your Render service settings.
