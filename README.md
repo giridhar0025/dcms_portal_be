@@ -52,3 +52,9 @@ Run tests with:
 npm test
 ```
 
+## Deployment
+
+The project deploys to **GitHub Pages** whenever a pull request is merged into
+the `main` branch. You can also trigger a deployment manually from the Actions
+tab by running the *Deploy to GitHub Pages* workflow.
+
