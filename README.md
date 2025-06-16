@@ -33,6 +33,3 @@ Run tests with:
 npm test
 ```
 
-## Docker
-
-Use `docker-compose` to run the API along with MongoDB and Redis.
