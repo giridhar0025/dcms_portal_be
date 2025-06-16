@@ -19,7 +19,7 @@ This project provides a production-ready boilerplate using **Node.js**, **Expres
    ```
 3. Generate Prisma client:
    ```bash
-   npx prisma generate
+   npx prisma generate --schema=src/models/schema.prisma
    ```
 4. Start development server:
    ```bash
